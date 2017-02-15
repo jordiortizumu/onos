@@ -29,6 +29,7 @@ import org.onosproject.net.meter.MeterRequest;
 import org.onosproject.net.meter.MeterService;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -160,7 +161,7 @@ public class MeterAddCommand extends AbstractShellCommand {
 
         MeterRequest request = builder.add();
 
-        service.submit(request);
-
+        Meter m = service.submit(request);
+        print("Requested meter: %s", m.toString());
     }
 }
