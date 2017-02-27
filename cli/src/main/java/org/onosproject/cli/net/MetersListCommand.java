@@ -21,9 +21,12 @@ import org.apache.karaf.shell.commands.Command;
 import org.onosproject.cli.AbstractShellCommand;
 import org.onosproject.net.DeviceId;
 import org.onosproject.net.meter.Meter;
+import org.onosproject.net.meter.MeterId;
 import org.onosproject.net.meter.MeterService;
 
 import java.util.Collection;
+
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 /**
  * Lists all meters.
@@ -36,17 +39,39 @@ public class MetersListCommand extends AbstractShellCommand {
             required = false, multiValued = false)
     String uri = null;
 
+    @Argument(index = 1, name = "meter", description = "Meter ID",
+            required = false, multiValued = false)
+    String meterstr = null;
+
+    MeterId meterId = null;
 
     @Override
     protected void execute() {
+
+        if (!isNullOrEmpty(meterstr)) {
+            meterId = MeterId.meterId(Long.parseLong(meterstr));
+        }
+
         MeterService service = get(MeterService.class);
+
 
         Collection<Meter> meters = service.getAllMeters();
         if (uri != null) {
             DeviceId deviceId = DeviceId.deviceId(uri);
             Collection<Meter> devMeters = Collections2.filter(meters,
                                                               m -> m.deviceId().equals(deviceId));
-            printMeters(devMeters);
+            if (meterId == null) {
+                printMeters(devMeters);
+            } else {
+                for (Meter meter : devMeters) {
+                    if (meter.id().equals(meterId)) {
+                        print(meter.toString());
+                        return;
+                    }
+                }
+                print("Meter %s not found for device %s", meterId, deviceId);
+            }
+
         } else {
             printMeters(meters);
         }
