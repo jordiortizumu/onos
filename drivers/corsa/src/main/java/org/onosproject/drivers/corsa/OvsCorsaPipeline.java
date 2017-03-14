@@ -24,6 +24,7 @@ import org.onosproject.net.flow.DefaultTrafficSelector;
 import org.onosproject.net.flow.DefaultTrafficTreatment;
 import org.onosproject.net.flow.FlowRule;
 import org.onosproject.net.flow.FlowRuleOperations;
+import org.onosproject.net.flow.NoCleanTrafficTreatment;
 import org.onosproject.net.flow.TrafficSelector;
 import org.onosproject.net.flow.TrafficTreatment;
 import org.onosproject.net.flow.criteria.Criterion;
@@ -116,7 +117,7 @@ public class OvsCorsaPipeline extends AbstractCorsaPipeline {
         treatment.transition(LOCAL_TABLE);
         return DefaultFlowRule.builder()
                 .withSelector(selector.build())
-                .withTreatment(treatment.build())
+                .withTreatment(new NoCleanTrafficTreatment(treatment.build()))
                 .withPriority(HIGHEST_PRIORITY)
                 .makePermanent()
                 .forTable(FIB_TABLE);
@@ -134,7 +135,7 @@ public class OvsCorsaPipeline extends AbstractCorsaPipeline {
         return DefaultFlowRule.builder()
                 .forDevice(deviceId)
                 .withSelector(selector.build())
-                .withTreatment(treatment.build())
+                .withTreatment(new NoCleanTrafficTreatment(treatment.build()))
                 .withPriority(CONTROLLER_PRIORITY)
                 .makePermanent()
                 .forTable(VLAN_TABLE);
@@ -150,7 +151,7 @@ public class OvsCorsaPipeline extends AbstractCorsaPipeline {
         return DefaultFlowRule.builder()
                 .forDevice(deviceId)
                 .withSelector(selector.build())
-                .withTreatment(treatment.build())
+                .withTreatment(new NoCleanTrafficTreatment(treatment.build()))
                 .withPriority(CONTROLLER_PRIORITY)
                 .makePermanent()
                 .forTable(MAC_TABLE);
@@ -181,7 +182,7 @@ public class OvsCorsaPipeline extends AbstractCorsaPipeline {
         FlowRule rule = DefaultFlowRule.builder()
                 .forDevice(deviceId)
                 .withSelector(selector.build())
-                .withTreatment(treatment.build())
+                .withTreatment(new NoCleanTrafficTreatment(treatment.build()))
                 .withPriority(CONTROLLER_PRIORITY)
                 .fromApp(appId)
                 .makePermanent()
@@ -206,7 +207,7 @@ public class OvsCorsaPipeline extends AbstractCorsaPipeline {
         rule = DefaultFlowRule.builder()
                 .forDevice(deviceId)
                 .withSelector(selector.build())
-                .withTreatment(treatment.build())
+                .withTreatment(new NoCleanTrafficTreatment(treatment.build()))
                 .withPriority(CONTROLLER_PRIORITY)
                 .fromApp(appId)
                 .makePermanent()
@@ -229,7 +230,7 @@ public class OvsCorsaPipeline extends AbstractCorsaPipeline {
         FlowRule rule = DefaultFlowRule.builder()
                 .forDevice(deviceId)
                 .withSelector(selector.build())
-                .withTreatment(treatment.build())
+                .withTreatment(new NoCleanTrafficTreatment(treatment.build()))
                 .withPriority(CONTROLLER_PRIORITY)
                 .fromApp(appId)
                 .makePermanent()
@@ -245,7 +246,7 @@ public class OvsCorsaPipeline extends AbstractCorsaPipeline {
                 .forDevice(deviceId)
                 .withPriority(CONTROLLER_PRIORITY)
                 .withSelector(selector.build())
-                .withTreatment(treatment.build())
+                .withTreatment(new NoCleanTrafficTreatment(treatment.build()))
                 .fromApp(appId)
                 .makePermanent()
                 .forTable(ETHER_TABLE).build();
@@ -265,7 +266,7 @@ public class OvsCorsaPipeline extends AbstractCorsaPipeline {
         FlowRule rule = DefaultFlowRule.builder()
                 .forDevice(deviceId)
                 .withSelector(selector.build())
-                .withTreatment(treatment.build())
+                .withTreatment(new NoCleanTrafficTreatment(treatment.build()))
                 .withPriority(DROP_PRIORITY)
                 .fromApp(appId)
                 .makePermanent()
@@ -288,7 +289,7 @@ public class OvsCorsaPipeline extends AbstractCorsaPipeline {
         FlowRule rule = DefaultFlowRule.builder()
                 .forDevice(deviceId)
                 .withSelector(selector.build())
-                .withTreatment(treatment.build())
+                .withTreatment(new NoCleanTrafficTreatment(treatment.build()))
                 .withPriority(CONTROLLER_PRIORITY)
                 .fromApp(appId)
                 .makePermanent()
